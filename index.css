@@ -1,0 +1,342 @@
+/*
+shared css
+*/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: "Dosis", sans-serif;
+}
+
+header,
+footer {
+  background-color: #1e4040;
+  /* font color */
+  color: #71d99e;
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+main,
+aside {
+  padding: 20px 5%;
+}
+
+a {
+  /* display: inline-block; */
+  color: #71d99e;
+}
+
+img {
+  border-radius: 5px;
+  box-shadow: 1px 2px 3px 1px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+footer p {
+  color: whitesmoke;
+}
+
+.collage {
+  display: grid;
+  margin-top: 60px;
+  margin-bottom: 60px;
+
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 40px 1fr 40px 1fr;
+
+  align-items: center;
+}
+
+/* select all descendents of collage */
+.collage * {
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+.collage-1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  z-index: 1;
+  transform: rotate(-3deg);
+}
+
+.collage-2 {
+  grid-column-start: 2;
+  grid-column-end: 5;
+  z-index: 2;
+  box-shadow: 2px 4px 10px 2px rgba(0, 0, 0, 0.5);
+}
+
+.collage-3 {
+  grid-column-start: 4;
+  grid-column-end: 6;
+  z-index: 1;
+  transform: rotate(3deg);
+}
+
+/*
+css outer grid styles
+*/
+
+.outer-grid {
+  display: grid;
+  height: 100vh;
+
+  grid-template-rows: 70px 1fr;
+  grid-template-columns: 90px 1fr;
+
+  grid-template-areas:
+    "alias-header alias-header"
+    "alias-innergrid alias-innergrid"; /* nav bar removed */
+}
+
+/* we can toggle this class off in Rules > .cls 
+   just unmark the outer-grid-expanded class */
+.outer-grid-expanded {
+  grid-template-areas:
+    "alias-header alias-header"
+    "alias-nav alias-innergrid"; /* nav bar reappear */
+}
+
+/* make nav bar disappear completely, not just hiding it
+   otherwise, nav bar will appear outside of outer-grid
+   if no width and height are given, it will not appear
+   but if width and height are given, it will appear on the
+   lower right corner of the screen */
+.hide-nav {
+  display: none;
+}
+
+header {
+  grid-area: alias-header;
+}
+
+nav {
+  grid-area: alias-nav;
+}
+
+/*
+---------------------
+inner grid style, this is also itself a grid parent
+and grid item too
+
+start out as mobile view
+---------------------
+*/
+.inner-grid {
+  /* only vertical scrolling allowed inside inner grid
+     outer grid is unaffected, that way the header section 
+     will not move when we scroll down inside the inner grid */
+  overflow-y: scroll;
+  display: grid;
+  grid-area: alias-innergrid;
+
+  /* create grid cells */
+  grid-template-rows: 1fr auto 60px;
+  grid-template-columns: 1fr;
+
+  /* as screen expands, use these references for grid area */
+  grid-template-areas:
+    "alias-main"
+    "alias-aside"
+    "alias-footer";
+}
+
+main {
+  grid-area: alias-main;
+}
+
+aside {
+  grid-area: alias-aside;
+}
+
+footer {
+  grid-area: alias-footer;
+}
+
+/*
+-------------------
+Header styles
+------------------
+*/
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.left-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* when screen expands, this icon will disappear
+   so, setting margin right on this icon is the 
+   ideal method, so that LOGO isn't affected 
+   when screen expands */
+.fa-bars {
+  margin-right: 10px;
+}
+
+/* hover effect on the bar icon */
+.fa-bars:hover {
+  cursor: pointer; /* finger cursor */
+  opacity: 0.8;
+}
+
+.right-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.header-link {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  /* flex direction is column, so to center them, use align-items*/
+  align-items: center;
+}
+
+.header-link i {
+  font-size: 0.8rem;
+}
+
+.hide-nav {
+  padding-top: 20px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #1e4040;
+  margin-top: 15px;
+}
+
+.nav-link a {
+  color: #1e4040;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.nav-link :hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/*
+-------------------
+side bar style
+------------------
+*/
+aside {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/*
+-----------------
+Breakpoints
+start out as mobile view
+------------
+*/
+
+@media (min-width: 576px) {
+  .hide-nav {
+    /* override the display: none */
+    display: block !important;
+  }
+
+  /* but we also need to be specific about the grid-template-areas */
+  .outer-grid {
+    grid-template-areas:
+      "alias-header alias-header"
+      "alias-nav alias-innergrid";
+  }
+
+  /* when nav bar appears, the bar icon serves no purpose anymore, so we can remove it*/
+  .fa-bars {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .inner-grid {
+    grid-template-rows: 1fr 60px; /* first row is taller than second row */
+    grid-template-columns: minmax(auto, 700px) 1fr; /* first column uses minmax, second column uses remaining space */
+
+    grid-template-areas:
+      "alias-main alias-aside"
+      "alias-footer alias-footer";
+  }
+
+  aside {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* at 1440px or more, prevent header elements from
+   stretching further out to the edge */
+@media (min-width: 1440px) {
+  header {
+    display: grid;
+    grid-template-columns: 1fr 950px 1fr;
+
+    grid-template-areas: "left-side . right-side";
+  }
+
+  .left-header {
+    grid-area: left-side;
+    justify-self: end;
+  }
+
+  .right-header {
+    grid-area: right-side;
+    justify-self: start;
+  }
+
+  .outer-grid {
+    grid-template-columns: 1fr 950px 1fr;
+
+    grid-template-areas:
+      "alias-header alias-header alias-header"
+      "alias-nav alias-innergrid alias-innergrid";
+  }
+
+  /* when screen expands beyond 576px,
+     hide-nav is declared block important
+     so to make it a flex, we also need to 
+     make it flex important*/
+  .hide-nav {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .nav-link {
+    padding-right: 15px;
+  }
+}
